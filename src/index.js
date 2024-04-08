@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import "amazon-connect-streams"; // This will make the `connect` available in the current context.
-import "amazon-connect-chatjs";
+import "@rackspace-cc/connect-rtc"
 
 
 // Import semantic
