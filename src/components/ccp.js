@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Grid } from 'semantic-ui-react';
 import Amplify from 'aws-amplify';
 import Predictions, { AmazonAIPredictionsProvider } from '@aws-amplify/predictions';
@@ -13,6 +13,10 @@ Amplify.addPluggable(new AmazonAIPredictionsProvider());
 
 
 const Ccp = () => {
+    var session = null;
+    const audioRef = useRef(null);
+
+    // old refs and state
     const [languageTranslate] = useGlobalState('languageTranslate');
     var localLanguageTranslate = [];
     const [Chats] = useGlobalState('Chats');
@@ -26,7 +30,42 @@ const Ccp = () => {
         console.log("Subscribing to connect events");
         
         window.connect.contact(contact => {
-            console.log(contact.getAgentConnection().getSoftphoneMediaInfo());
+            contact.onConnecting(() => {
+                let softphoneMediaInfo = contact.getAgentConnection().getSoftphoneMediaInfo();
+                console.log("softphoneMediaInfo: ", JSON.stringify(softphoneMediaInfo));
+              
+                const rtcConfig = softphoneMediaInfo.webcallConfig || JSON.parse(softphoneMediaInfo.callConfigJson || '{}');
+                console.log("rtcConfig: ", rtcConfig);
+            
+                const protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+                const host = process.env.REACT_APP_CONNECT_INSTANCE_URL + "/connect/ccp-v2";
+                const wssUrl = host.replace(/^https:\/\//i, protocol);
+
+                const rtcSessionUrl = wssUrl + rtcConfig.signalingEndpoint;
+
+                session = new window.connect.RTCSession(
+                    rtcSessionUrl,
+                    rtcConfig.iceServers,
+                    rtcConfig.callContextToken,
+                    console
+                );
+                console.log("session: ", session);
+
+                session.onSessionConnected = () => {}
+                session.onSessionCompleted = () => {}
+                session.onSessionDestroyed = (s, report) => {}
+            
+                var audioElement = audioRef.current;
+                console.log("remote audio looks like: ", audioElement);
+                session.remoteAudioElement = audioElement;
+                session.forceAudioCodec = 'OPUS';
+            });
+
+            contact.onConnected(() => {
+                console.log("before session connect");
+                session.connect();
+                console.log("after session connect");
+            });
         });
     }
 
@@ -44,10 +83,6 @@ const Ccp = () => {
               // optional, defaults below apply if not provided
               allowFramedSoftphone: false, // optional, defaults to false
               disableRingtone: false, // optional, defaults to false
-              disableEchoCancellation: false, // optional, defaults to false
-              allowFramedVideoCall: true, // optional, default to false
-              VDIPlatform: null, // optional, provide with 'CITRIX' if using Citrix VDI, or use enum VDIPlatformType
-              allowEarlyGum: true, //optional, default to true
             },
             pageOptions: { //optional
               enableAudioDeviceSettings: true, //optional, defaults to 'false'
@@ -60,7 +95,10 @@ const Ccp = () => {
 
         window.connect.core.initSoftphoneManager({allowFramedSoftphone: true});
 
-        subscribeConnectEvents();
+        audioRef.current.muted = false; // Apply the muted state to the audio element
+        audioRef.current.play(); // Play the audio
+
+        // subscribeConnectEvents();
     }, []);
 
 
@@ -72,7 +110,7 @@ const Ccp = () => {
             <div id="ccp-container"></div>
             </Grid.Row>
           </Grid>
-          <audio id="remote-audio" autoplay></audio>
+          <audio id="remote-audio" ref={audioRef} autoplay muted></audio>
         </main>
     );
 };

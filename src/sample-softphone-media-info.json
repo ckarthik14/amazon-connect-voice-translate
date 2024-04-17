@@ -1,0 +1,22 @@
+{
+    "callType": "audio_only",
+    "autoAccept": false,
+    "mediaLegContextToken": "RCntLiaAFQ.ZfSYrtkVgp4ToxlgouP3S~SACD-Cm6YZjOTfbNsb-dLw~bb8awXLr6l0-kAl7XawbmCaCNno5z9KBr7V_yBT32kT1nIvVmrTPjcSbMr42IHpawmtJuFzRNkCTlISaZ0hogzTps8U2zC-vYMSPpa0QplH2dWXVxrhNCy9CwRxIuhQfNXhE4S2F1hE",
+    "callContextToken": "RCntLiaAFQ.ZfSYrtkVgp4ToxlgouP3S~ug--Zee7Kdf_9w21ZTdxqw~a-p9ufbkyM5o7-JKnNO1krkn87m_CSxomtKhC_H3Rnq1dqtzHbImiJtV4ca-7EsQkid6Nfr2p46x0FWFir8OFHd2bed5tGcUtaMLk-4tGeK_umpTxPboL8x-LxR6B04z-_rEAmwAMUEFSeLmIb9ZLxSJq9rcHQwl-8eZoUzrNsOppSO3fRVLfRCjCMEdBW3pNxI_Fb54Wyp-awpo9nGRYpmxG0sZvG2mWhfdgZUeLQzenYfgFSJMa8nIkCmt1AvV5EyirFiJI-2iMCEUpdL_17XpWvXpJ3qi3YXHsuMGfqndARynV5RRPv86_SwYja_CzW-bi9xjgwRtRqDTp35L2WiH9B0aVEIlqkFfEzt6rfrVjciO01ljCq-3_GfqWh2mp53gIP1aS3PGFfw6k5zRfdfdYJdSFSdViFsepIiwEYUTGCu1HrQxSEeJXOxPAMxwBo46MegvfB3dnLlKdAOSLNcozMfJONMtUK-J2SzEr4AEKbdxP80A_TChEpU5YzVp4tng43p3TMvqzvngbLsJn1wTp3yBKRnWUq6bxrW_6DIiSWeQHwhZowjM3K9-hRLILD2_MHfur_wg_g",
+    "callConfigJson": {
+      "signalingEndpoint": "/LilyRTC",
+      "iceServers": [
+        {
+          "urls": [
+            "turn:turnnlb-7a9b8e750cec315a.elb.us-east-1.amazonaws.com.:3478?transport=udp"
+          ],
+          "username": "1712623604:7718e737-c0b4-4cdb-8e90-67e916be90cb",
+          "credential": "qcZuVX9EgpiUm9dOVwkQzr99lLk=",
+          "sessionToken": "{\"internalIp\":\"10.4.2.127\"}"
+        }
+      ],
+      "protocol": "LilyRTC/1.0/WSS",
+      "useWebSocketProvider": true
+    }
+  }
+  
