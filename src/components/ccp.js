@@ -22,6 +22,8 @@ const Ccp = () => {
     const [agentVoiceSessionState, setAgentVoiceSessionState] = useState([]);
     const [setRefreshChild] = useState([]);
 
+    const audioRef = useRef(null);
+
     function subscribeConnectEvents() {
         console.log("Subscribing to connect events");
         
@@ -63,6 +65,18 @@ const Ccp = () => {
         subscribeConnectEvents();
     }, []);
 
+    const fetchAndPlayAudio = async () => {
+      try {
+          const response = await fetch('S3 bucket-url');
+          const blob = await response.blob();
+          const audioUrl = URL.createObjectURL(blob);
+          audioRef.current.src = audioUrl;
+          audioRef.current.play();
+      }
+      catch (error) {
+        console.error('Error fetching and playing audio: ', error);
+      }
+    }
 
     return (
         <main>
@@ -72,6 +86,7 @@ const Ccp = () => {
             <div id="ccp-container"></div>
             </Grid.Row>
           </Grid>
+          <button onClick={fetchAndPlayAudio}>Play Audio</button>
           <audio id="remote-audio" autoplay></audio>
         </main>
     );
