@@ -67,7 +67,7 @@ const Ccp = () => {
 
     const fetchAndPlayAudio = async () => {
       try {
-          const response = await fetch('S3 bucket-url');
+          const response = await fetch('https://demo-audiotest24.s3.amazonaws.com/sample-0.mp3');
           const blob = await response.blob();
           const audioUrl = URL.createObjectURL(blob);
           audioRef.current.src = audioUrl;
