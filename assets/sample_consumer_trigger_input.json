@@ -1,0 +1,54 @@
+{
+    "Details": {
+        "ContactData": {
+            "Attributes": {
+                "streamAudioFromCustomer": "true",
+                "transcribeCall": "true",
+                "languageCode": "en-US",
+                "saveCallRecording": "false"
+            },
+            "AwsRegion": "us-east-1",
+            "Channel": "VOICE",
+            "ContactId": "77f5c5e4-ac66-4809-907b-513f5bd2cd3b",
+            "CustomerEndpoint": {
+                "Address": "+19493375381",
+                "Type": "TELEPHONE_NUMBER"
+            },
+            "CustomerId": null,
+            "Description": null,
+            "InitialContactId": "77f5c5e4-ac66-4809-907b-513f5bd2cd3b",
+            "InitiationMethod": "INBOUND",
+            "InstanceARN": "arn:aws:connect:us-east-1:471112798145:instance/a7033934-7f82-4781-b828-8e64bdf55bd7",
+            "LanguageCode": "en-US",
+            "MediaStreams": {
+                "Customer": {
+                    "Audio": {
+                        "StartFragmentNumber": "91343852333181437344442219803299119001083369171",
+                        "StartTimestamp": "1713144814762",
+                        "StreamARN": "arn:aws:kinesisvideo:us-east-1:471112798145:stream/language-translate-connect-realtimedemouci24-contact-87727c53-5053-4c76-a6db-a10b32d46466/1712466870609"
+                    }
+                }
+            },
+            "Name": null,
+            "PreviousContactId": "77f5c5e4-ac66-4809-907b-513f5bd2cd3b",
+            "Queue": null,
+            "References": {},
+            "RelatedContactId": null,
+            "SegmentAttributes": {
+                "connect:Subtype": {
+                    "ValueString": "connect:Telephony"
+                }
+            },
+            "SystemEndpoint": {
+                "Address": "+16785287925",
+                "Type": "TELEPHONE_NUMBER"
+            },
+            "Tags": {
+                "aws:connect:instanceId": "a7033934-7f82-4781-b828-8e64bdf55bd7",
+                "aws:connect:systemEndpoint": "+16785287925"
+            }
+        },
+        "Parameters": {}
+    },
+    "Name": "ContactFlowEvent"
+}

@@ -1,0 +1,34 @@
+{
+    "Records": [
+        {
+            "eventID": "ac6f9bc7a56d421608da3589ca67283d",
+            "eventName": "INSERT",
+            "eventVersion": "1.1",
+            "eventSource": "aws:dynamodb",
+            "awsRegion": "us-east-1",
+            "dynamodb": {
+                "ApproximateCreationDateTime": 1713669952,
+                "Keys": {
+                    "StartTime": {
+                        "N": "0"
+                    },
+                    "ContactId": {
+                        "S": "temp3"
+                    }
+                },
+                "NewImage": {
+                    "StartTime": {
+                        "N": "0"
+                    },
+                    "ContactId": {
+                        "S": "temp3"
+                    }
+                },
+                "SequenceNumber": "33301400000000039481963861",
+                "SizeBytes": 48,
+                "StreamViewType": "NEW_IMAGE"
+            },
+            "eventSourceARN": "arn:aws:dynamodb:us-east-1:471112798145:table/contactTranscriptSegments/stream/2024-04-21T03:16:44.434"
+        }
+    ]
+}

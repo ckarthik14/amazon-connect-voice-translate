@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { Grid } from 'semantic-ui-react';
 import Amplify from 'aws-amplify';
 import Predictions, { AmazonAIPredictionsProvider } from '@aws-amplify/predictions';
@@ -13,20 +13,58 @@ Amplify.addPluggable(new AmazonAIPredictionsProvider());
 
 
 const Ccp = () => {
-    const [languageTranslate] = useGlobalState('languageTranslate');
-    var localLanguageTranslate = [];
-    const [Chats] = useGlobalState('Chats');
-    const [lang, setLang] = useState("");
-    const [currentContactId] = useGlobalState('currentContactId');
-    const [languageOptions] = useGlobalState('languageOptions');
-    const [agentVoiceSessionState, setAgentVoiceSessionState] = useState([]);
-    const [setRefreshChild] = useState([]);
+    let contactAttributes;
+    let event;
+    const [data, setData] = useState({});
 
-    function subscribeConnectEvents() {
-        console.log("Subscribing to connect events");
+    async function triggerFromCustomerTranslation() {
+        contactAttributes = contact.getAttributes();
+        console.log("Contact Attributes:", contactAttributes);
+
+        event = {
+            streamARN: contactAttributes.streamARN,
+            startFragmentNum: contactAttributes.startFragmentNum,
+            connectContactId: contactAttributes.connectContactId,
+            transcribeCall: contactAttributes.transcribeCall,
+            saveCallRecording: contactAttributes.saveCallRecording,
+            languageCode: contactAttributes.languageCode,
+            // These default to true for backwards compatability purposes
+            streamAudioFromCustomer: "true",
+            streamAudioToCustomer: "false",
+            customerPhoneNumber: contactAttributes.customerPhoneNumber,
+        };
+
+        console.log('Event transmitted: ' + JSON.stringify(event));
+
+        const response = await fetch('https://jei62447y0.execute-api.us-east-1.amazonaws.com/dev/triggerLambda', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(event)
+        });
+        const jsonData = await response.json();
+        console.log('Lambda response: ' + JSON.stringify(jsonData));
+        setData(jsonData);
+    }
+
+    const fetchAudioAndPlay = () => {
+        const s3 = new AWS.S3();
+        const kinesis = new AWS.Kinesis();
+      };
+
+    function beginTranslation() {
+        console.log("Begin translation");
         
         window.connect.contact(contact => {
-            console.log(contact.getAgentConnection().getSoftphoneMediaInfo());
+
+            contact.onConnecting(async () => {
+                triggerFromCustomerTranslation(contact);
+            });
+
+            contact.onConnected(() => {
+                
+            })
         });
     }
 
@@ -44,10 +82,6 @@ const Ccp = () => {
               // optional, defaults below apply if not provided
               allowFramedSoftphone: false, // optional, defaults to false
               disableRingtone: false, // optional, defaults to false
-              disableEchoCancellation: false, // optional, defaults to false
-              allowFramedVideoCall: true, // optional, default to false
-              VDIPlatform: null, // optional, provide with 'CITRIX' if using Citrix VDI, or use enum VDIPlatformType
-              allowEarlyGum: true, //optional, default to true
             },
             pageOptions: { //optional
               enableAudioDeviceSettings: true, //optional, defaults to 'false'
@@ -57,10 +91,11 @@ const Ccp = () => {
             ccpSynTimeout: 3000, //optional, defaults to 1000 (ms)
             ccpLoadTimeout: 10000 //optional, defaults to 5000 (ms)
            });
+        
+        window.connect.core.initSoftphoneManager();
 
-        window.connect.core.initSoftphoneManager({allowFramedSoftphone: true});
-
-        subscribeConnectEvents();
+        beginTranslation();
+        fetchAudioAndPlay();
     }, []);
 
 
@@ -70,9 +105,13 @@ const Ccp = () => {
           <Grid.Row>
             {/* CCP window will load here */}
             <div id="ccp-container"></div>
-            </Grid.Row>
+          </Grid.Row>
+
+          <Grid.Row>
+            Lambda Response: {}
+          </Grid.Row>
+
           </Grid>
-          <audio id="remote-audio" autoplay></audio>
         </main>
     );
 };

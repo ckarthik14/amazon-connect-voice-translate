@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import "amazon-connect-streams"; // This will make the `connect` available in the current context.
-import "@rackspace-cc/connect-rtc"
+import "@ckarthik114/connect-rtc"
 
 
 // Import semantic
@@ -14,7 +14,6 @@ import 'semantic-ui-less/semantic.less';
 import Amplify from "aws-amplify";
 import awsExports from "./aws-exports";
 Amplify.configure(awsExports);
-// 
 
 
 
