@@ -5,14 +5,6 @@ const AudioProcessor = ({ streamName, region }) => {
     const [audioUrl, setAudioUrl] = useState('');
 
     useEffect(() => {
-        // Configure AWS
-        AWS.config.update({
-            region: region,
-            credentials: new AWS.CognitoIdentityCredentials({
-                IdentityPoolId: 'YOUR_IDENTITY_POOL_ID', // Replace with your Cognito Identity Pool ID
-            })
-        });
-
         const kinesis = new AWS.Kinesis({ apiVersion: '2013-12-02' });
 
         const fetchShardIterator = async () => {
