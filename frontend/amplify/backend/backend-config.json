@@ -1,6 +1,6 @@
 {
   "auth": {
-    "amazonconnectvoicetrd0e75a25": {
+    "amazonvoicetranslate07283e63": {
       "customAuth": false,
       "dependsOn": [],
       "frontendAuthConfig": {
@@ -16,7 +16,9 @@
           "EMAIL"
         ],
         "socialProviders": [],
-        "usernameAttributes": [],
+        "usernameAttributes": [
+          "EMAIL"
+        ],
         "verificationMechanisms": [
           "EMAIL"
         ]

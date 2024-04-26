@@ -21,7 +21,7 @@ const useLambdaTrigger = () => {
 
         console.log('Event transmitted: ' + JSON.stringify(event));
 
-        const response = await fetch('https://YOUR_API_ENDPOINT/triggerLambda', {
+        const response = await fetch('https://jei62447y0.execute-api.us-east-1.amazonaws.com/dev/triggerLambda', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json'

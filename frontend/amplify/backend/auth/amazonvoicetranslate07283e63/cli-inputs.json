@@ -1,10 +1,10 @@
 {
   "version": "1",
   "cognitoConfig": {
-    "identityPoolName": "amazonconnectvoicetrd0e75a25_identitypool_d0e75a25",
+    "identityPoolName": "amazonvoicetranslate07283e63_identitypool_07283e63",
     "allowUnauthenticatedIdentities": false,
-    "resourceNameTruncated": "amazond0e75a25",
-    "userPoolName": "amazonconnectvoicetrd0e75a25_userpool_d0e75a25",
+    "resourceNameTruncated": "amazon07283e63",
+    "userPoolName": "amazonvoicetranslate07283e63_userpool_07283e63",
     "autoVerifiedAttributes": [
       "email"
     ],
@@ -31,12 +31,15 @@
     "userpoolClientReadAttributes": [
       "email"
     ],
-    "userpoolClientLambdaRole": "amazond0e75a25_userpoolclient_lambda_role",
+    "userpoolClientLambdaRole": "amazon07283e63_userpoolclient_lambda_role",
     "userpoolClientSetAttributes": false,
-    "sharedId": "d0e75a25",
-    "resourceName": "amazonconnectvoicetrd0e75a25",
+    "sharedId": "07283e63",
+    "resourceName": "amazonvoicetranslate07283e63",
     "authSelections": "identityPoolAndUserPool",
     "useDefault": "default",
+    "usernameAttributes": [
+      "email"
+    ],
     "userPoolGroupList": [],
     "serviceName": "Cognito",
     "usernameCaseSensitive": false,

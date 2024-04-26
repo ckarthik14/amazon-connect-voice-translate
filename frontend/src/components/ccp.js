@@ -6,12 +6,24 @@ import awsconfig from '../aws-exports';
 import { useGlobalState } from '../store/state';
 
 import useLambdaTrigger from './useLambdaTrigger';
+import AudioPlayer from './audioPlayer';
 
 Amplify.configure(awsconfig);
 Amplify.addPluggable(new AmazonAIPredictionsProvider());
 
 const Ccp = () => {
+    const websocketUrl = "wss://qv1241nc27.execute-api.us-east-1.amazonaws.com/dev/";
+
     const { lambdaResponse, triggerFromCustomerTranslation } = useLambdaTrigger();
+
+    const beginTranslation = () => {
+      console.log("Begin translation");
+      window.connect.contact(contact => {
+          contact.onConnecting(async () => {
+              await triggerFromCustomerTranslation(contact);
+          });
+      });
+  };
     
     useEffect(() => {
         const connectUrl = process.env.REACT_APP_CONNECT_INSTANCE_URL;
@@ -34,16 +46,6 @@ const Ccp = () => {
 
         window.connect.core.initSoftphoneManager();
 
-        // Function to handle the contact connection
-        const beginTranslation = () => {
-            console.log("Begin translation");
-            window.connect.contact(contact => {
-                contact.onConnecting(async () => {
-                    await triggerFromCustomerTranslation(contact);
-                });
-            });
-        };
-
         beginTranslation();
     }, []);
 
@@ -56,6 +58,9 @@ const Ccp = () => {
             <Grid.Row>
               <div>Lambda Response: {JSON.stringify(lambdaResponse)}</div>
             </Grid.Row>
+            {/* <Grid.Row>
+              <AudioPlayer wsUrl={websocketUrl} />
+            </Grid.Row> */}
           </Grid>
         </main>
     );

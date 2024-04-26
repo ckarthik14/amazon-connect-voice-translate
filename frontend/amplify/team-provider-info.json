@@ -1,25 +1,25 @@
 {
   "dev": {
     "awscloudformation": {
-      "AuthRoleName": "amplify-amazonconnectvoicetr-dev-215701-authRole",
-      "UnauthRoleArn": "arn:aws:iam::471112798145:role/amplify-amazonconnectvoicetr-dev-215701-unauthRole",
-      "AuthRoleArn": "arn:aws:iam::471112798145:role/amplify-amazonconnectvoicetr-dev-215701-authRole",
+      "AuthRoleName": "amplify-amazonvoicetranslate-dev-181950-authRole",
+      "UnauthRoleArn": "arn:aws:iam::471112798145:role/amplify-amazonvoicetranslate-dev-181950-unauthRole",
+      "AuthRoleArn": "arn:aws:iam::471112798145:role/amplify-amazonvoicetranslate-dev-181950-authRole",
       "Region": "us-east-1",
-      "DeploymentBucketName": "amplify-amazonconnectvoicetr-dev-215701-deployment",
-      "UnauthRoleName": "amplify-amazonconnectvoicetr-dev-215701-unauthRole",
-      "StackName": "amplify-amazonconnectvoicetr-dev-215701",
-      "StackId": "arn:aws:cloudformation:us-east-1:471112798145:stack/amplify-amazonconnectvoicetr-dev-215701/70ce5850-f564-11ee-980f-129a13105fd9",
-      "AmplifyAppId": "d6x10fzcebc9o"
+      "DeploymentBucketName": "amplify-amazonvoicetranslate-dev-181950-deployment",
+      "UnauthRoleName": "amplify-amazonvoicetranslate-dev-181950-unauthRole",
+      "StackName": "amplify-amazonvoicetranslate-dev-181950",
+      "StackId": "arn:aws:cloudformation:us-east-1:471112798145:stack/amplify-amazonvoicetranslate-dev-181950/eb015ce0-02a1-11ef-a90a-0afff8a3a649",
+      "AmplifyAppId": "decfpxlwqo3g7"
     },
     "categories": {
       "hosting": {
         "amplifyhosting": {
-          "appId": "d6x10fzcebc9o",
+          "appId": "decfpxlwqo3g7",
           "type": "manual"
         }
       },
       "auth": {
-        "amazonconnectvoicetrd0e75a25": {}
+        "amazonvoicetranslate07283e63": {}
       }
     }
   }
