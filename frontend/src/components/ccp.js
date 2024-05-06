@@ -15,13 +15,20 @@ const Ccp = () => {
     const websocketUrl = "wss://qv1241nc27.execute-api.us-east-1.amazonaws.com/dev/";
 
     const { lambdaResponse, triggerFromCustomerTranslation } = useLambdaTrigger();
+    const { openSocket } = AudioPlayer(websocketUrl);
+
 
     const beginTranslation = () => {
       console.log("Begin translation");
       window.connect.contact(contact => {
+
           contact.onConnecting(async () => {
-              await triggerFromCustomerTranslation(contact);
+            await triggerFromCustomerTranslation(contact);
           });
+
+          contact.onConnected(async () => {
+            await openSocket();
+          })
       });
   };
     
@@ -55,12 +62,6 @@ const Ccp = () => {
             <Grid.Row>
               <div id="ccp-container"></div>
             </Grid.Row>
-            <Grid.Row>
-              <div>Lambda Response: {JSON.stringify(lambdaResponse)}</div>
-            </Grid.Row>
-            {/* <Grid.Row>
-              <AudioPlayer wsUrl={websocketUrl} />
-            </Grid.Row> */}
           </Grid>
         </main>
     );

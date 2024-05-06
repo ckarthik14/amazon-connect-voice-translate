@@ -8,4 +8,14 @@ If not installed Amplify already
 Initialise amplify. Before this you need to setup `./aws/credentials` with keys
 ```amplify init```
 
+Add hosting
+```amplify add hosting```
 
+Add auth
+```amplify add auth```
+
+Push and create all resources
+```amplify push```
+
+Publish all changes and test code
+```amplify publish```

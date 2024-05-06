@@ -25,7 +25,7 @@ def synthesize_speech(text='Hello, world!', voice='Aditi', language_code='hi-IN'
 
     # Request speech synthesis in Hindi
     response = polly_client.synthesize_speech(
-        Text="\u0920\u0940\u0915 \u0939\u0948?",
+        Text="translated_text",
         OutputFormat='mp3',
         VoiceId=voice,
         LanguageCode=language_code
