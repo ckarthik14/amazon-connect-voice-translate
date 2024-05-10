@@ -15,7 +15,7 @@ const Ccp = () => {
     const websocketUrl = "wss://qv1241nc27.execute-api.us-east-1.amazonaws.com/dev/";
 
     const { lambdaResponse, triggerFromCustomerTranslation } = useLambdaTrigger();
-    const { openSocket } = AudioPlayer(websocketUrl);
+    const { openSocket, closeSocket } = AudioPlayer(websocketUrl);
 
 
     const beginTranslation = () => {
@@ -23,11 +23,17 @@ const Ccp = () => {
       window.connect.contact(contact => {
 
           contact.onConnecting(async () => {
-            await triggerFromCustomerTranslation(contact);
+            triggerFromCustomerTranslation(contact);
           });
 
           contact.onConnected(async () => {
-            await openSocket();
+            openSocket();
+          })
+
+          contact.onEnded(async () => {
+            setTimeout(() => {
+              closeSocket();
+            }, 20000);
           })
       });
   };

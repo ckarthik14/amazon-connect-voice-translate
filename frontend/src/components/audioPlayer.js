@@ -4,15 +4,17 @@ const AudioPlayer = (wsUrl) => {
   const [isReadyToPlay, setIsReadyToPlay] = useState(false);
   const audioContextRef = useRef(null);
   const nextTimeRef = useRef(0);
+  let socket;
 
   const openSocket = async () => {
-    const socket = new WebSocket(wsUrl);
+    socket = new WebSocket(wsUrl);
     
     // Initialize the AudioContext when the component mounts
-    audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+    
 
     socket.onmessage = async (event) => {
-      console.log('CDEBUG: Message from server ', event.data);
+      audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+      // console.log('CDEBUG: Message from server ', event.data);
 
       const data = JSON.parse(event.data);
 
@@ -20,7 +22,7 @@ const AudioPlayer = (wsUrl) => {
 
       const binaryString = window.atob(data.audio_data);
       
-      console.log('CDEBUG: Decoded Audio', binaryString);
+      // console.log('CDEBUG: Decoded Audio', binaryString);
 
       const len = binaryString.length;
       const bytes = new Uint8Array(len);
@@ -55,6 +57,13 @@ const AudioPlayer = (wsUrl) => {
     };
   };
 
+  const closeSocket = async () => {
+    socket.close();
+      if (audioContextRef.current) {
+        audioContextRef.current.close();
+    }
+  }
+
   const playAudio = (audioBuffer) => {
     const source = audioContextRef.current.createBufferSource();
     source.buffer = audioBuffer;
@@ -65,7 +74,7 @@ const AudioPlayer = (wsUrl) => {
     nextTimeRef.current = nextTime + audioBuffer.duration;
   };
 
-  return { openSocket }
+  return { openSocket, closeSocket }
 
   // return (
   //   <div>

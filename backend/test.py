@@ -5,3 +5,5 @@ utf_decoded = a.decode('utf-8')
 
 print(a)
 print(utf_decoded)
+
+print("a", "b")
