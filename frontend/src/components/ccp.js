@@ -23,17 +23,17 @@ const Ccp = () => {
       window.connect.contact(contact => {
 
           contact.onConnecting(async () => {
+            await openSocket();
             triggerFromCustomerTranslation(contact);
           });
 
           contact.onConnected(async () => {
-            openSocket();
-          })
+          });
 
           contact.onEnded(async () => {
             setTimeout(() => {
               closeSocket();
-            }, 20000);
+            }, 5000);
           })
       });
   };

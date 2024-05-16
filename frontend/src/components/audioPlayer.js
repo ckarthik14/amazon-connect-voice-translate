@@ -1,20 +1,23 @@
 import React, { useEffect, useState, useRef } from 'react';
 
 const AudioPlayer = (wsUrl) => {
-  const [isReadyToPlay, setIsReadyToPlay] = useState(false);
   const audioContextRef = useRef(null);
   const nextTimeRef = useRef(0);
-  let socket;
+  const socket = useRef(null);
 
   const openSocket = async () => {
-    socket = new WebSocket(wsUrl);
+    socket.current = new WebSocket(wsUrl);
     
-    // Initialize the AudioContext when the component mounts
-    
+    const createAudioContext = () => {
+      if (!audioContextRef.current || audioContextRef.current.state === 'closed') {
+        audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+        console.log('Audio context initialized');
+      }
+    };
 
-    socket.onmessage = async (event) => {
-      audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+    socket.current.onmessage = async (event) => {
       // console.log('CDEBUG: Message from server ', event.data);
+      createAudioContext();
 
       const data = JSON.parse(event.data);
 
@@ -31,38 +34,37 @@ const AudioPlayer = (wsUrl) => {
       }
 
       // Decode the audio data and play it
+      console.log('Current audio context: ', audioContextRef.current.state);
       if (audioContextRef.current) {
         const audioBuffer = await audioContextRef.current.decodeAudioData(bytes.buffer);
         playAudio(audioBuffer);
       }
     };
 
-    socket.onopen = () => {
+    socket.current.onopen = () => {
       console.log('CDEBUG: WebSocket Connected');
     };
 
-    socket.onerror = (error) => {
+    socket.current.onerror = (error) => {
       console.error('CDEBUG: WebSocket Error: ', error);
     };
 
-    socket.onclose = (event) => {
+    socket.current.onclose = (event) => {
       console.log('CDEBUG: WebSocket Disconnected: ', event);
-    };
-
-    return () => {
-      socket.close();
-      if (audioContextRef.current) {
-        audioContextRef.current.close();
-      }
     };
   };
 
-  const closeSocket = async () => {
-    socket.close();
-      if (audioContextRef.current) {
-        audioContextRef.current.close();
+  const closeSocket = () => {
+    if (socket.current) {
+      socket.current.close();
+      console.log('WebSocket closed');
     }
-  }
+    if (audioContextRef.current) {
+      audioContextRef.current.close();
+      console.log('Audio context closed');
+    }
+    nextTimeRef.current = 0; // Reset the nextTimeRef
+  };
 
   const playAudio = (audioBuffer) => {
     const source = audioContextRef.current.createBufferSource();
@@ -75,14 +77,6 @@ const AudioPlayer = (wsUrl) => {
   };
 
   return { openSocket, closeSocket }
-
-  // return (
-  //   <div>
-  //     <div onClick={handleUserInteraction}>
-  //       <p>Click anywhere to enable audio and start streaming</p>
-  //     </div>
-  //   </div>
-  // );
 };
 
 export default AudioPlayer;
