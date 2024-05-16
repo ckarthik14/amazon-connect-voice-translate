@@ -5,19 +5,20 @@ const AudioPlayer = (wsUrl) => {
   const nextTimeRef = useRef(0);
   const socket = useRef(null);
 
+  const createAudioContext = () => {
+    if (!audioContextRef.current || audioContextRef.current.state === 'closed') {
+      audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
+      console.log('Audio context initialized');
+    }
+  };
+
   const openSocket = async () => {
     socket.current = new WebSocket(wsUrl);
     
-    const createAudioContext = () => {
-      if (!audioContextRef.current || audioContextRef.current.state === 'closed') {
-        audioContextRef.current = new (window.AudioContext || window.webkitAudioContext)();
-        console.log('Audio context initialized');
-      }
-    };
+    createAudioContext();
 
     socket.current.onmessage = async (event) => {
       // console.log('CDEBUG: Message from server ', event.data);
-      createAudioContext();
 
       const data = JSON.parse(event.data);
 
